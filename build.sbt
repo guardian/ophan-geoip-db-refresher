@@ -6,12 +6,11 @@ description:= "Fetching the latest GeoIP database and putting it in S3 for Ophan
 
 version := "1.0"
 
-scalaVersion := "2.13.5"
+scalaVersion := "3.0.0-RC2"
 
 scalacOptions ++= Seq(
   "-deprecation",
-  "-encoding", "UTF-8",
-  "-Ywarn-dead-code"
+  "-encoding", "UTF-8"
 )
 
 libraryDependencies ++= Seq(
