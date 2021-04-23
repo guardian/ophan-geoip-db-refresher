@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Fetching the latest GeoIP database and putting it in S3 for Ophan
+Parameters:
+  App:
+    Description: Application name
+    Type: String
+    Default: geoip-db-refresher
+Resources:
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Path: /
+      Policies:
+        - PolicyName: logging
+          PolicyDocument:
+            Statement:
+              Effect: Allow
+              Action:
+                - logs:CreateLogGroup
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+              Resource: arn:aws:logs:*:*:*
+        - PolicyName: ophan-geoip-db-refresher-actions
+          PolicyDocument:
+            Statement:
+            - Effect: Allow
+              Action: s3:GetObject
+              Resource: arn:aws:s3:::ophan-dist/geoip/*
+            - Effect: Allow
+              Action: ssm:GetParameter
+              Resource: 'arn:aws:ssm:eu-west-1:021353022223:parameter/Ophan/GeoIP'
+            - Effect: Allow
+              Action: kms:Decrypt
+              Resource: 'arn:aws:kms:eu-west-1:021353022223:key/d77985cc-fb91-42e5-86f9-505fe2eefb76'
+
+  Lambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: ophan-dist
+        S3Key: ophan/PROD/geoip-db-refresher/geoip-db-refresher.jar
+      Description: Fetching the latest GeoIP database and putting it in S3 for Ophan
+      Handler: ophan.geoip.db.refresher.Lambda::handler
+      MemorySize: 512
+      Role: !GetAtt ExecutionRole.Arn
+      Runtime: java11
+      Timeout: 120

@@ -1,0 +1,14 @@
+stacks:
+- ophan
+deployments:
+  geoip-db-refresher:
+    parameters:
+      bucket: ophan-dist
+      fileName: geoip-db-refresher.jar
+      functions:
+        PROD:
+          filename: geoip-db-refresher.jar
+          name: Ophan-GeoIP-DB-Refresher-Lambda
+    type: aws-lambda
+regions:
+- eu-west-1
