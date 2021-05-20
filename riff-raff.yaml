@@ -8,7 +8,7 @@ deployments:
       functions:
         PROD:
           filename: geoip-db-refresher.jar
-          name: Ophan-GeoIP-DB-Refresher-Lambda
+          name: Ophan-GeoIP-DB-Refresher-Lambda-16GC5O4SZ7XJ5
     type: aws-lambda
 regions:
 - eu-west-1
