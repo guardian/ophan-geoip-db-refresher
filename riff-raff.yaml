@@ -10,5 +10,11 @@ deployments:
           filename: geoip-db-refresher.jar
           name: Ophan-GeoIP-DB-Refresher-Lambda-16GC5O4SZ7XJ5
     type: aws-lambda
+  cloudformation:
+    type: cloud-formation
+    app: geoip-db-refresher
+    dependencies: [ geoip-db-refresher ]
+    parameters:
+      templatePath: cfn.yaml
 regions:
 - eu-west-1
