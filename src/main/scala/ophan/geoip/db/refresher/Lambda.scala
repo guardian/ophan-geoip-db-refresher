@@ -16,12 +16,17 @@ object Lambda extends Logging {
     retrieveAndStore(MaxmindDatabaseEdition.GeoIP2City)
   }
 
+  // See https://docs.aws.amazon.com/AmazonS3/latest/userguide/finding-canonical-user-id.html
+  val DeployToolsAWSAccountCanonicalUserId = "4545b54bd17af766e5e14aa12fd41bade300cf170dc6f5c4cd09240d36484cf1"
+
   private def retrieveAndStore(maxmindDatabaseEdition: MaxmindDatabaseEdition) = {
     (for {
       downloadedArchiveFile <- MaxmindArchiveDownloader.download(maxmindDatabaseEdition)
       _ <- maxmindDatabaseEdition.usingDatabaseStreamFrom(downloadedArchiveFile) { streamOfKnownSize =>
-        val s3Key = s"geoip/test-${maxmindDatabaseEdition.databaseFileName}"
-        val objectRequest = PutObjectRequest.builder.bucket("ophan-dist").key(s3Key).build
+        val s3Key = s"geoip/${maxmindDatabaseEdition.databaseFileName}"
+        val objectRequest = PutObjectRequest.builder.bucket("ophan-dist").key(s3Key)
+          .grantRead(s"id=$DeployToolsAWSAccountCanonicalUserId") // so TeamCity can read file for CI tests
+          .build
 
         logger.info(Map(
           "databaseFile.size" -> streamOfKnownSize.size,

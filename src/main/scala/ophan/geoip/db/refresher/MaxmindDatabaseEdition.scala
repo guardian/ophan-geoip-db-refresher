@@ -44,7 +44,8 @@ object MaxmindDatabaseEdition {
   val licenceKey: String = AWS.SSM.getParameter(_.withDecryption(true).name("/Ophan/GeoIP")).parameter.value
 
   val GeoIP2City = MaxmindDatabaseEdition("GeoIP2-City", "tar.gz", "mmdb")
-
+  val GeoIP2Country = MaxmindDatabaseEdition("GeoIP2-Country", "tar.gz", "mmdb") // smaller file useful for test runs
+  
   def uriFor(editionId: String, suffix: String): URI =
     new URI(s"https://download.maxmind.com/app/geoip_download?edition_id=$editionId&license_key=$licenceKey&suffix=$suffix")
 }
