@@ -31,7 +31,7 @@ Resources:
           PolicyDocument:
             Statement:
             - Effect: Allow
-              Action: s3:GetObject
+              Action: s3:PutObject
               Resource: arn:aws:s3:::ophan-dist/geoip/*
             - Effect: Allow
               Action: ssm:GetParameter
