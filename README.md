@@ -9,13 +9,13 @@ perform that lookup.
 
 ## Steps performed by the Refresher
 
-* Download the database archive file (`.tar.gz`) from the MaxMind permalink url, along
-  with the archive's SHA256 hash (`.tar.gz.sha256`).
-* Compute the SHA256 hash of the downloaded archive, verify it matches the stated hash.
-* Inspect the database archive file to find archive entry that corresponds to the
-  database file (`GeoIP2-City.mmdb`) itself.
-* Stream the archive entry directly from the archive up to S3, where it can be used by
-  the Slab, and accessed by our tests running on TeamCity.
+1. Download the database archive file (`.tar.gz`) from the MaxMind permalink url, along
+   with the archive's SHA256 hash (`.tar.gz.sha256`).
+2. Compute the SHA256 hash of the downloaded archive, verify it matches the stated hash.
+3. Inspect the database archive file to find archive entry that corresponds to the
+   database file (`GeoIP2-City.mmdb`) itself.
+4. Stream the archive entry directly from the archive up to S3, where it can be used by
+   the Slab, and accessed by our tests running on TeamCity.
 
 ## Running the Refresher locally
 
