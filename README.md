@@ -22,7 +22,8 @@ perform that lookup.
 ### Pre-requisites
 
 These mostly match [the pre-requisites for running Ophan locally](https://github.com/guardian/ophan/blob/main/docs/developing-ophan/running-ophan-locally.md#pre-requisites) -
-specifically Java 11 & `sbt`, but also especially the requirement to have `ophan` AWS credentials
+specifically Java 11 & `sbt`, but also especially the requirement to have
+[`ophan` AWS credentials](https://janus.gutools.co.uk/credentials?permissionId=ophan-dev)
 from [Janus](https://janus.gutools.co.uk/).
 
 ### Running the Lambda locally
