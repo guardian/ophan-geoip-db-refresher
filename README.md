@@ -14,7 +14,8 @@ perform that lookup.
 * Compute the SHA256 hash of the downloaded archive, verify it matches the stated hash.
 * Inspect the database archive file to find archive entry that corresponds to the
   database file (`GeoIP2-City.mmdb`) itself.
-* Stream the archive entry directly from the archive up to S3.
+* Stream the archive entry directly from the archive up to S3, where it can be used by
+  the Slab, and accessed by our tests running on TeamCity.
 
 ## Running the Refresher locally
 
