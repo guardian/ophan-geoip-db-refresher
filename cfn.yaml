@@ -52,3 +52,20 @@ Resources:
       Role: !GetAtt ExecutionRole.Arn
       Runtime: java11
       Timeout: 120
+
+  ScheduledRule:
+    Type: AWS::Events::Rule
+    Properties:
+      ScheduleExpression: cron(20 11 ? * WED *) # MaxMind: "Weekly updates are available every Tuesday"
+      Targets:
+      - Arn: !GetAtt [Lambda, Arn]
+        Id: GeoIPRefresherLambda
+
+  # Permission to allow the event rule to trigger the lambda
+  InvokeLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref Lambda
+      Action: lambda:InvokeFunction
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt [ScheduledRule, Arn]
