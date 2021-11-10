@@ -48,7 +48,7 @@ Resources:
         S3Key: ophan/PROD/geoip-db-refresher/geoip-db-refresher.jar
       Description: Fetching the latest GeoIP database and putting it in S3 for Ophan
       Handler: ophan.geoip.db.refresher.Lambda::handler
-      MemorySize: 512
+      MemorySize: 1024
       Role: !GetAtt ExecutionRole.Arn
       Runtime: java11
       Timeout: 120
