@@ -51,6 +51,8 @@ Resources:
       MemorySize: 1024
       Role: !GetAtt ExecutionRole.Arn
       Runtime: java11
+      Architectures:
+        - arm64
       Timeout: 120
 
   ScheduledRule:
