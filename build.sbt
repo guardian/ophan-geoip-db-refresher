@@ -6,7 +6,7 @@ description:= "Fetching the latest GeoIP database and putting it in S3 for Ophan
 
 version := "1.0"
 
-scalaVersion := "3.0.0"
+scalaVersion := "3.1.0"
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -25,7 +25,7 @@ libraryDependencies ++= Seq(
   "org.apache.commons" % "commons-compress" % "1.20",
   "commons-io" % "commons-io" % "2.8.0",
 
-) ++ Seq("ssm", "s3", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.16.46")
+) ++ Seq("ssm", "s3", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.17.80")
 
 enablePlugins(RiffRaffArtifact, BuildInfoPlugin)
 
@@ -37,16 +37,16 @@ riffRaffArtifactResources += (file("cfn.yaml"), s"cloudformation/cfn.yaml")
 
 assembly / assemblyMergeStrategy := {
   case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
-  case x => MergeStrategy.first
+  case _ => MergeStrategy.first
 }
 
 
 buildInfoPackage := "ophan.geoip.extractor"
 buildInfoKeys := Seq[BuildInfoKey](
-  BuildInfoKey.constant("buildNumber", Option(System.getenv("BUILD_NUMBER")) getOrElse "DEV"),
+  "buildNumber" -> Option(System.getenv("BUILD_NUMBER")).getOrElse("DEV"),
   // so this next one is constant to avoid it always recompiling on dev machines.
   // we only really care about build time on teamcity, when a constant based on when
   // it was loaded is just fine
-  BuildInfoKey.constant("buildTime", System.currentTimeMillis),
-  BuildInfoKey.constant("gitCommitId", Option(System.getenv("BUILD_VCS_NUMBER")) getOrElse "DEV")
+  "buildTime" -> System.currentTimeMillis,
+  "gitCommitId"-> Option(System.getenv("BUILD_VCS_NUMBER")).getOrElse("DEV")
 )
