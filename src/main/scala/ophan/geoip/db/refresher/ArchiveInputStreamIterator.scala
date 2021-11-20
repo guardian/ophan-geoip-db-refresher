@@ -15,5 +15,5 @@ class ArchiveInputStreamIterator(archiveInputStream: ArchiveInputStream) extends
   }
 
   override def next(): (ArchiveEntry, InputStream) =
-    (latest, new CloseShieldInputStream(archiveInputStream))
+    (latest, CloseShieldInputStream.wrap(archiveInputStream))
 }
