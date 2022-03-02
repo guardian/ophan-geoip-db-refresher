@@ -58,7 +58,8 @@ Resources:
   ScheduledRule:
     Type: AWS::Events::Rule
     Properties:
-      ScheduleExpression: cron(20 11 ? * WED,SAT *) # MaxMind: "Databases updated twice weekly on Tuesdays and Fridays"
+      # MaxMind: "Databases updated twice weekly on Tuesdays and Fridays" ... can be "delayed by about one day"
+      ScheduleExpression: cron(20 11 ? * WED,THU,SAT,SUN *)
       Targets:
       - Arn: !GetAtt [Lambda, Arn]
         Id: GeoIPRefresherLambda
