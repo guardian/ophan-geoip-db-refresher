@@ -8,7 +8,7 @@ description:= "Fetching the latest GeoIP database and putting it in S3 for Ophan
 
 version := "1.0"
 
-scalaVersion := "3.1.1"
+scalaVersion := "3.1.2"
 
 scalacOptions ++= Seq(
   "-deprecation",
