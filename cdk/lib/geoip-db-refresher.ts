@@ -3,6 +3,7 @@ import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
 import { GuStack } from '@guardian/cdk/lib/constructs/core';
 import type { App } from 'aws-cdk-lib';
 import { Schedule } from 'aws-cdk-lib/aws-events';
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { Architecture, Runtime } from 'aws-cdk-lib/aws-lambda';
 
 export class GeoipDbRefresher extends GuStack {
@@ -10,6 +11,35 @@ export class GeoipDbRefresher extends GuStack {
 		super(scope, id, props);
 
 		const app = 'geoip-db-refresher';
+
+		const loggingPolicy = new PolicyStatement({
+			resources: ['arn:aws:logs:*:*:*'],
+			actions: [
+				'logs:CreateLogGroup',
+				'logs:CreateLogStream',
+				'logs:PutLogEvents',
+			],
+		});
+
+		const geoIpDbRefresherActionsPolicy = new PolicyStatement({
+			// is it better to replace the * with the name of the file `GeoIP2-City.mmdb` or does it change names?
+			resources: ['arn:aws:s3:::ophan-dist/geoip/*'],
+			actions: ['s3:PutObject', 's3:PutObjectAcl'],
+		});
+
+		const ssmGetParameterPolicy = new PolicyStatement({
+			resources: [
+				`arn:aws:ssm:eu-west-1:${this.account}:parameter/Ophan/GeoIP`,
+			],
+			actions: ['ssm:GetParameter'],
+		});
+
+		const kmsDecryptPolicy = new PolicyStatement({
+			resources: [
+				`arn:aws:kms:eu-west-1:${this.account}:key/d77985cc-fb91-42e5-86f9-505fe2eefb76`,
+			],
+			actions: ['kms:Decrypt'],
+		});
 
 		const lambda = new GuScheduledLambda(this, 'geoip-db-refresher', {
 			app,
@@ -25,5 +55,10 @@ export class GeoipDbRefresher extends GuStack {
 			],
 			monitoringConfiguration: { noMonitoring: true },
 		});
+
+		lambda.addToRolePolicy(loggingPolicy);
+		lambda.addToRolePolicy(geoIpDbRefresherActionsPolicy);
+		lambda.addToRolePolicy(ssmGetParameterPolicy);
+		lambda.addToRolePolicy(kmsDecryptPolicy);
 	}
 }
