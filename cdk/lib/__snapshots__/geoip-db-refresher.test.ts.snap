@@ -41,7 +41,7 @@ exports[`The GeoipDbRefresher stack matches the snapshot 1`] = `
           },
         },
         "Handler": "ophan.geoip.db.refresher.Lambda::handler",
-        "MemorySize": 1024,
+        "MemorySize": 1536,
         "Role": {
           "Fn::GetAtt": [
             "geoipdbrefresherServiceRole2ABAFA67",
@@ -71,7 +71,7 @@ exports[`The GeoipDbRefresher stack matches the snapshot 1`] = `
             "Value": "TEST",
           },
         ],
-        "Timeout": 30,
+        "Timeout": 120,
       },
       "Type": "AWS::Lambda::Function",
     },

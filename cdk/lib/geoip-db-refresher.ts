@@ -2,6 +2,7 @@ import { GuScheduledLambda } from '@guardian/cdk';
 import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
 import { GuStack } from '@guardian/cdk/lib/constructs/core';
 import type { App } from 'aws-cdk-lib';
+import { Duration } from 'aws-cdk-lib';
 import { Schedule } from 'aws-cdk-lib/aws-events';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { Architecture, Runtime } from 'aws-cdk-lib/aws-lambda';
@@ -48,7 +49,9 @@ export class GeoipDbRefresher extends GuStack {
 				'Fetching the latest GeoIP database and putting it in S3 for Ophan',
 			handler: 'ophan.geoip.db.refresher.Lambda::handler',
 			runtime: Runtime.JAVA_11,
+			memorySize: 1536, // more memory than we need, but we're billed for fewer GB-seconds this way
 			architecture: Architecture.ARM_64,
+			timeout: Duration.seconds(120),
 			// MaxMind: "Databases updated twice-weekly on Tuesdays and Fridays" ... can be "delayed by about one day"
 			rules: [
 				{ schedule: Schedule.expression('cron(20 11 ? * WED,THU,SAT,SUN *)') },
