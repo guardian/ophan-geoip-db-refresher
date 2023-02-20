@@ -2,21 +2,80 @@
 
 exports[`The GeoipDbRefresher stack matches the snapshot 1`] = `
 {
-  "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Fetching the latest GeoIP database and putting it in S3 for Ophan",
   "Metadata": {
-    "gu:cdk:constructs": [],
+    "gu:cdk:constructs": [
+      "GuDistributionBucketParameter",
+      "GuScheduledLambda",
+    ],
     "gu:cdk:version": "TEST",
   },
   "Parameters": {
-    "App": {
-      "Default": "geoip-db-refresher",
-      "Description": "Application name",
-      "Type": "String",
+    "DistributionBucketName": {
+      "Default": "/account/services/artifact.bucket",
+      "Description": "SSM parameter containing the S3 bucket name holding distribution artifacts",
+      "Type": "AWS::SSM::Parameter::Value<String>",
     },
   },
   "Resources": {
-    "ExecutionRole": {
+    "geoipdbrefresherABBF7BA3": {
+      "DependsOn": [
+        "geoipdbrefresherServiceRoleDefaultPolicy86D5F709",
+        "geoipdbrefresherServiceRole2ABAFA67",
+      ],
+      "Properties": {
+        "Architectures": [
+          "arm64",
+        ],
+        "Code": {
+          "S3Bucket": {
+            "Ref": "DistributionBucketName",
+          },
+          "S3Key": "ophan/TEST/geoip-db-refresher/geoip-db-refresher.jar",
+        },
+        "Description": "Fetching the latest GeoIP database and putting it in S3 for Ophan",
+        "Environment": {
+          "Variables": {
+            "APP": "geoip-db-refresher",
+            "STACK": "ophan",
+            "STAGE": "TEST",
+          },
+        },
+        "Handler": "ophan.geoip.db.refresher.Lambda::handler",
+        "MemorySize": 1024,
+        "Role": {
+          "Fn::GetAtt": [
+            "geoipdbrefresherServiceRole2ABAFA67",
+            "Arn",
+          ],
+        },
+        "Runtime": "java11",
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "geoip-db-refresher",
+          },
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/ophan-geoip-db-refresher",
+          },
+          {
+            "Key": "Stack",
+            "Value": "ophan",
+          },
+          {
+            "Key": "Stage",
+            "Value": "TEST",
+          },
+        ],
+        "Timeout": 30,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "geoipdbrefresherServiceRole2ABAFA67": {
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -24,56 +83,31 @@ exports[`The GeoipDbRefresher stack matches the snapshot 1`] = `
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
               "Principal": {
-                "Service": [
-                  "lambda.amazonaws.com",
-                ],
+                "Service": "lambda.amazonaws.com",
               },
             },
           ],
+          "Version": "2012-10-17",
         },
-        "Path": "/",
-        "Policies": [
+        "ManagedPolicyArns": [
           {
-            "PolicyDocument": {
-              "Statement": {
-                "Action": [
-                  "logs:CreateLogGroup",
-                  "logs:CreateLogStream",
-                  "logs:PutLogEvents",
-                ],
-                "Effect": "Allow",
-                "Resource": "arn:aws:logs:*:*:*",
-              },
-            },
-            "PolicyName": "logging",
-          },
-          {
-            "PolicyDocument": {
-              "Statement": [
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
                 {
-                  "Action": [
-                    "s3:PutObject",
-                    "s3:PutObjectAcl",
-                  ],
-                  "Effect": "Allow",
-                  "Resource": "arn:aws:s3:::ophan-dist/geoip/*",
+                  "Ref": "AWS::Partition",
                 },
-                {
-                  "Action": "ssm:GetParameter",
-                  "Effect": "Allow",
-                  "Resource": "arn:aws:ssm:eu-west-1:021353022223:parameter/Ophan/GeoIP",
-                },
-                {
-                  "Action": "kms:Decrypt",
-                  "Effect": "Allow",
-                  "Resource": "arn:aws:kms:eu-west-1:021353022223:key/d77985cc-fb91-42e5-86f9-505fe2eefb76",
-                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
-            },
-            "PolicyName": "ophan-geoip-db-refresher-actions",
+            ],
           },
         ],
         "Tags": [
+          {
+            "Key": "App",
+            "Value": "geoip-db-refresher",
+          },
           {
             "Key": "gu:cdk:version",
             "Value": "TEST",
@@ -94,76 +128,142 @@ exports[`The GeoipDbRefresher stack matches the snapshot 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "InvokeLambdaPermission": {
+    "geoipdbrefresherServiceRoleDefaultPolicy86D5F709": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::",
+                      {
+                        "Ref": "DistributionBucketName",
+                      },
+                    ],
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::",
+                      {
+                        "Ref": "DistributionBucketName",
+                      },
+                      "/ophan/TEST/geoip-db-refresher/geoip-db-refresher.jar",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "ssm:GetParametersByPath",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:ssm:",
+                    {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":parameter/TEST/ophan/geoip-db-refresher",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "ssm:GetParameters",
+                "ssm:GetParameter",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:ssm:",
+                    {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":parameter/TEST/ophan/geoip-db-refresher/*",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "geoipdbrefresherServiceRoleDefaultPolicy86D5F709",
+        "Roles": [
+          {
+            "Ref": "geoipdbrefresherServiceRole2ABAFA67",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "geoipdbrefreshergeoipdbrefreshercron2011WEDTHUSATSUN02C2AAFFB": {
+      "Properties": {
+        "ScheduleExpression": "cron(20 11 ? * WED,THU,SAT,SUN *)",
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
+                "geoipdbrefresherABBF7BA3",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "geoipdbrefreshergeoipdbrefreshercron2011WEDTHUSATSUN0AllowEventRuleGeoipDbRefreshergeoipdbrefresher75E55D0C16B93CAF": {
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
-          "Ref": "Lambda",
+          "Fn::GetAtt": [
+            "geoipdbrefresherABBF7BA3",
+            "Arn",
+          ],
         },
         "Principal": "events.amazonaws.com",
         "SourceArn": {
           "Fn::GetAtt": [
-            "ScheduledRule",
+            "geoipdbrefreshergeoipdbrefreshercron2011WEDTHUSATSUN02C2AAFFB",
             "Arn",
           ],
         },
       },
       "Type": "AWS::Lambda::Permission",
-    },
-    "Lambda": {
-      "Properties": {
-        "Architectures": [
-          "arm64",
-        ],
-        "Code": {
-          "S3Bucket": "ophan-dist",
-          "S3Key": "ophan/PROD/geoip-db-refresher/geoip-db-refresher.jar",
-        },
-        "Description": "Fetching the latest GeoIP database and putting it in S3 for Ophan",
-        "Handler": "ophan.geoip.db.refresher.Lambda::handler",
-        "MemorySize": 1536,
-        "Role": {
-          "Fn::GetAtt": "ExecutionRole.Arn",
-        },
-        "Runtime": "java11",
-        "Tags": [
-          {
-            "Key": "gu:cdk:version",
-            "Value": "TEST",
-          },
-          {
-            "Key": "gu:repo",
-            "Value": "guardian/ophan-geoip-db-refresher",
-          },
-          {
-            "Key": "Stack",
-            "Value": "ophan",
-          },
-          {
-            "Key": "Stage",
-            "Value": "TEST",
-          },
-        ],
-        "Timeout": 120,
-      },
-      "Type": "AWS::Lambda::Function",
-    },
-    "ScheduledRule": {
-      "Properties": {
-        "ScheduleExpression": "cron(20 11 ? * WED,THU,SAT,SUN *)",
-        "Targets": [
-          {
-            "Arn": {
-              "Fn::GetAtt": [
-                "Lambda",
-                "Arn",
-              ],
-            },
-            "Id": "GeoIPRefresherLambda",
-          },
-        ],
-      },
-      "Type": "AWS::Events::Rule",
     },
   },
 }
