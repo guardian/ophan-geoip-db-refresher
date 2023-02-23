@@ -23,7 +23,6 @@ export class GeoipDbRefresher extends GuStack {
 		});
 
 		const geoIpDbRefresherActionsPolicy = new PolicyStatement({
-			// is it better to replace the * with the name of the file `GeoIP2-City.mmdb` or does it change names?
 			resources: ['arn:aws:s3:::ophan-dist/geoip/*'],
 			actions: ['s3:PutObject', 's3:PutObjectAcl'],
 		});
