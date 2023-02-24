@@ -5,6 +5,7 @@ deployments:
     type: aws-lambda
     parameters:
       fileName: geoip-db-refresher.jar
+      bucketSsmLookup: true
       lookupByTags: true
   cloudformation:
     type: cloud-formation
