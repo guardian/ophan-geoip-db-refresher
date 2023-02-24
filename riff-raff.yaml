@@ -4,7 +4,6 @@ deployments:
   geoip-db-refresher:
     type: aws-lambda
     parameters:
-      bucket: ophan-dist
       fileName: geoip-db-refresher.jar
       lookupByTags: true
   cloudformation:
