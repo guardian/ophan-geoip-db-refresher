@@ -12,6 +12,6 @@ deployments:
     app: geoip-db-refresher
     dependencies: [ geoip-db-refresher ]
     parameters:
-      templatePath: cfn.yaml
+      templatePath: cfn.json
 regions:
 - eu-west-1
