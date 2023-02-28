@@ -3,6 +3,7 @@ stacks:
 deployments:
   geoip-db-refresher:
     type: aws-lambda
+    dependencies: [ cloudformation ]
     parameters:
       fileName: geoip-db-refresher.jar
       bucketSsmLookup: true
@@ -10,7 +11,6 @@ deployments:
   cloudformation:
     type: cloud-formation
     app: geoip-db-refresher
-    dependencies: [ geoip-db-refresher ]
     parameters:
       templatePath: cfn.json
 regions:
