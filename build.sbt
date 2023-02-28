@@ -35,7 +35,7 @@ assemblyJarName := s"${name.value}.jar"
 riffRaffPackageType := assembly.value
 riffRaffUploadArtifactBucket := Option("riffraff-artifact")
 riffRaffUploadManifestBucket := Option("riffraff-builds")
-riffRaffArtifactResources += (file("cfn.json"), "cdk/cdk.out/GeoipDbRefresher-PROD.template.json")
+riffRaffArtifactResources += (file("cdk/cdk.out/GeoipDbRefresher-PROD.template.json"), "cloudformation/cfn.json")
 
 assembly / assemblyMergeStrategy := {
   case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
