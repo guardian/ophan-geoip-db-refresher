@@ -15,6 +15,6 @@ cd ..
   npm run synth
 )
 
-sbt clean compile test dist
+sbt clean riffRaffUpload
 
 popd
