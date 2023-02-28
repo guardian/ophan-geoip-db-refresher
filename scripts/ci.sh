@@ -15,6 +15,6 @@ cd ..
   npm run synth
 )
 
-sbt clean riffRaffUpload
+sbt -java-home $JAVA_HOME clean riffRaffUpload
 
 popd
