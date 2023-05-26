@@ -16,7 +16,7 @@ scalacOptions ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "com.amazonaws" % "aws-lambda-java-core" % "1.2.1",
+  "com.amazonaws" % "aws-lambda-java-core" % "1.2.2",
   "com.amazonaws" % "aws-lambda-java-events" % "3.11.2",
   "net.logstash.logback" % "logstash-logback-encoder" % "7.2",
   "org.slf4j" % "log4j-over-slf4j" % "1.7.36", //  log4j-over-slf4j provides `org.apache.log4j.MDC`, which is dynamically loaded by the Lambda runtime
@@ -27,7 +27,7 @@ libraryDependencies ++= Seq(
   "org.apache.commons" % "commons-compress" % "1.21",
   "commons-io" % "commons-io" % "2.12.0",
 
-) ++ Seq("ssm", "s3", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.17.251")
+) ++ Seq("ssm", "s3", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.17.295")
 
 enablePlugins(RiffRaffArtifact, BuildInfoPlugin)
 
