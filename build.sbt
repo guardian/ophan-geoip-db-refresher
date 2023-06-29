@@ -27,7 +27,7 @@ libraryDependencies ++= Seq(
   "org.apache.commons" % "commons-compress" % "1.23.0",
   "commons-io" % "commons-io" % "2.12.0",
 
-) ++ Seq("ssm", "s3", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.20.73")
+) ++ Seq("ssm", "s3", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.20.95")
 
 enablePlugins(RiffRaffArtifact, BuildInfoPlugin)
 
