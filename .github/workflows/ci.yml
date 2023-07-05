@@ -1,0 +1,58 @@
+name: CI
+on:
+  pull_request:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      # Checkout the branch
+      - uses: actions/checkout@v3
+      # Java is needed for the Scala Play app
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'corretto'
+          cache: 'sbt'
+      # Build CDK and Play (in sequence)
+      - run: ./scripts/ci.sh
+        shell: bash
+      # Fetch AWS credentials, allowing us to upload to Riff-Raff (well, S3)
+      - uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.GU_RIFF_RAFF_ROLE_ARN }}
+          aws-region: eu-west-1
+      # Upload our build artifacts to Riff-Raff (well, S3)
+      - uses: guardian/actions-riff-raff@v2
+        with:
+          app: geoip-db-refresher
+          buildNumberOffset: 221
+          config: |
+            stacks:
+            - ophan
+            regions:
+            - eu-west-1
+            deployments:
+              geoip-db-refresher:
+                type: aws-lambda
+                dependencies: [ cloudformation ]
+                parameters:
+                  fileName: geoip-db-refresher.jar
+                  bucketSsmLookup: true
+                  lookupByTags: true
+              cloudformation:
+                type: cloud-formation
+                app: geoip-db-refresher
+                parameters:
+                  templatePath: GeoipDbRefresher-PROD.template.json
+          contentDirectories: |
+            cloudformation:
+              - cdk/cdk.out/GeoipDbRefresher-PROD.template.json
+            geoip-db-refresher:
+              - target/geoip-db-refresher.jar

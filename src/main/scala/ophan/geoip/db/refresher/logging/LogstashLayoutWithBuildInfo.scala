@@ -14,8 +14,8 @@ class LogstashLayoutWithBuildInfo extends LogstashLayout {
   LambdaRuntimeInternal.setUseLog4jAppender(true)
 
   val contextTags: Map[String, String] = Map(
-    "buildNumber" -> BuildInfo.buildNumber,
-    "gitCommitId" -> BuildInfo.gitCommitId,
+    "buildNumber" -> BuildInfo.buildNumber.getOrElse("Unknown"),
+    "gitCommitId" -> BuildInfo.gitCommitId.getOrElse("Unknown"),
     "uniqueIdForVM" -> UniqueIdForVM.id // 'AWSRequestId' seems only intermittently available, this is an alternative
   )
 
