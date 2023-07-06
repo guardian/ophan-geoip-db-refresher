@@ -31,7 +31,7 @@ jobs:
       # Upload our build artifacts to Riff-Raff (well, S3)
       - uses: guardian/actions-riff-raff@v2
         with:
-          app: geoip-db-refresher
+          projectName: geoip-db-refresher
           buildNumberOffset: 221
           config: |
             stacks:
