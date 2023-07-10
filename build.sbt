@@ -20,7 +20,7 @@ libraryDependencies ++= Seq(
   "org.slf4j" % "log4j-over-slf4j" % "2.0.7", //  log4j-over-slf4j provides `org.apache.log4j.MDC`, which is dynamically loaded by the Lambda runtime
   "ch.qos.logback" % "logback-classic" % "1.4.8",
 
-  "com.lihaoyi" %% "upickle" % "3.1.0",
+  "com.lihaoyi" %% "upickle" % "3.1.2",
   "com.google.guava" % "guava" % "32.1.1-jre",
   "org.apache.commons" % "commons-compress" % "1.23.0",
   "commons-io" % "commons-io" % "2.13.0",
