@@ -22,7 +22,7 @@ libraryDependencies ++= Seq(
 
   "com.lihaoyi" %% "upickle" % "3.1.4",
   "com.google.guava" % "guava" % "33.0.0-jre",
-  "org.apache.commons" % "commons-compress" % "1.24.0",
+  "org.apache.commons" % "commons-compress" % "1.25.0",
   "commons-io" % "commons-io" % "2.15.1",
 
 ) ++ Seq("ssm", "s3", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.20.162")
