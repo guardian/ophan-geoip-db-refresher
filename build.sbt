@@ -14,8 +14,8 @@ scalacOptions ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "com.amazonaws" % "aws-lambda-java-core" % "1.2.2",
-  "com.amazonaws" % "aws-lambda-java-events" % "3.11.2",
+  "com.amazonaws" % "aws-lambda-java-core" % "1.2.3",
+  "com.amazonaws" % "aws-lambda-java-events" % "3.11.4",
   "net.logstash.logback" % "logstash-logback-encoder" % "7.4",
   "org.slf4j" % "log4j-over-slf4j" % "2.0.12", //  log4j-over-slf4j provides `org.apache.log4j.MDC`, which is dynamically loaded by the Lambda runtime
   "ch.qos.logback" % "logback-classic" % "1.4.14",
@@ -25,7 +25,7 @@ libraryDependencies ++= Seq(
   "org.apache.commons" % "commons-compress" % "1.24.0",
   "commons-io" % "commons-io" % "2.15.1",
 
-) ++ Seq("ssm", "s3", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.20.96")
+) ++ Seq("ssm", "s3", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.20.162")
 
 enablePlugins(BuildInfoPlugin)
 
