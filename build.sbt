@@ -21,7 +21,7 @@ libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-classic" % "1.4.14",
 
   "com.lihaoyi" %% "upickle" % "3.1.4",
-  "com.google.guava" % "guava" % "32.1.3-jre",
+  "com.google.guava" % "guava" % "33.0.0-jre",
   "org.apache.commons" % "commons-compress" % "1.24.0",
   "commons-io" % "commons-io" % "2.15.1",
 
