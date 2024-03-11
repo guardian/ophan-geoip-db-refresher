@@ -25,7 +25,7 @@ libraryDependencies ++= Seq(
   "org.apache.commons" % "commons-compress" % "1.24.0",
   "commons-io" % "commons-io" % "2.15.1",
 
-) ++ Seq("ssm", "s3", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.20.162")
+) ++ Seq("ssm", "s3", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.25.6")
 
 enablePlugins(BuildInfoPlugin)
 
