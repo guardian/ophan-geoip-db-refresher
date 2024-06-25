@@ -6,7 +6,7 @@ description:= "Fetching the latest GeoIP database and putting it in S3 for Ophan
 
 version := "1.0"
 
-scalaVersion := "3.3.1"
+scalaVersion := "3.3.3"
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -17,13 +17,13 @@ libraryDependencies ++= Seq(
   "com.amazonaws" % "aws-lambda-java-core" % "1.2.3",
   "com.amazonaws" % "aws-lambda-java-events" % "3.11.5",
   "net.logstash.logback" % "logstash-logback-encoder" % "7.4",
-  "org.slf4j" % "log4j-over-slf4j" % "2.0.12", //  log4j-over-slf4j provides `org.apache.log4j.MDC`, which is dynamically loaded by the Lambda runtime
-  "ch.qos.logback" % "logback-classic" % "1.4.14",
+  "org.slf4j" % "log4j-over-slf4j" % "2.0.13", //  log4j-over-slf4j provides `org.apache.log4j.MDC`, which is dynamically loaded by the Lambda runtime
+  "ch.qos.logback" % "logback-classic" % "1.5.6",
 
-  "com.lihaoyi" %% "upickle" % "3.1.4",
-  "com.google.guava" % "guava" % "32.1.3-jre",
+  "com.lihaoyi" %% "upickle" % "3.3.1",
+  "com.google.guava" % "guava" % "33.2.1-jre",
   "org.apache.commons" % "commons-compress" % "1.26.2",
-  "commons-io" % "commons-io" % "2.15.1",
+  "commons-io" % "commons-io" % "2.16.1",
 
 ) ++ Seq("ssm", "s3", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.25.28")
 
