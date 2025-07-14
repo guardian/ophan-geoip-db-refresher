@@ -27,6 +27,8 @@ libraryDependencies ++= Seq(
 
 ) ++ Seq("ssm", "s3", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.25.28")
 
+dependencyOverrides += "io.netty" % "netty-handler" % "4.1.118.Final"
+
 enablePlugins(BuildInfoPlugin)
 
 assembly / assemblyOutputPath  := file(s"target/${name.value}.jar")
