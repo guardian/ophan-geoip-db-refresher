@@ -7,6 +7,7 @@ description:= "Fetching the latest GeoIP database and putting it in S3 for Ophan
 version := "1.0"
 
 scalaVersion := "3.3.1"
+val jacksonVersion = "2.18.6"
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -26,6 +27,12 @@ libraryDependencies ++= Seq(
   "commons-io" % "commons-io" % "2.15.1",
   "io.netty" % "netty-handler" % "4.1.124.Final"
 ) ++ Seq("ssm", "s3", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.32.27")
+
+dependencyOverrides ++= Seq(
+  "com.fasterxml.jackson.core" % "jackson-annotations" % jacksonVersion,
+  "com.fasterxml.jackson.core" % "jackson-core" % jacksonVersion,
+  "com.fasterxml.jackson.core" % "jackson-databind" % jacksonVersion
+)
 
 enablePlugins(BuildInfoPlugin)
 
