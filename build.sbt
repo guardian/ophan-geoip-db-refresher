@@ -7,7 +7,8 @@ description:= "Fetching the latest GeoIP database and putting it in S3 for Ophan
 version := "1.0"
 
 scalaVersion := "3.3.1"
-val jacksonVersion = "2.18.6"
+val jacksonVersion = "2.18.9"
+val nettyVersion = "4.2.16.Final"
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -28,7 +29,10 @@ libraryDependencies ++= Seq(
   "com.google.guava" % "guava" % "32.1.3-jre",
   "org.apache.commons" % "commons-compress" % "1.26.2",
   "commons-io" % "commons-io" % "2.15.1",
-  "io.netty" % "netty-handler" % "4.1.124.Final"
+  "io.netty" % "netty-handler" % nettyVersion,
+  "io.netty" % "netty-codec" % nettyVersion,
+  "io.netty" % "netty-codec-http" % nettyVersion,
+  "io.netty" % "netty-codec-http2" % nettyVersion
 ) ++ Seq("ssm", "s3", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.32.27")
 
 enablePlugins(BuildInfoPlugin)
