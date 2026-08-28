@@ -25,7 +25,7 @@ libraryDependencies ++= Seq(
   "com.fasterxml.jackson.core" % "jackson-core" % jacksonVersion,
   "com.fasterxml.jackson.core" % "jackson-databind" % jacksonVersion,
 
-  "com.lihaoyi" %% "upickle" % "3.1.4",
+  "com.lihaoyi" %% "upickle" % "3.3.1",
   "com.google.guava" % "guava" % "32.1.3-jre",
   "org.apache.commons" % "commons-compress" % "1.26.2",
   "commons-io" % "commons-io" % "2.15.1",
