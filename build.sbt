@@ -28,7 +28,7 @@ libraryDependencies ++= Seq(
   "com.lihaoyi" %% "upickle" % "3.1.4",
   "com.google.guava" % "guava" % "32.1.3-jre",
   "org.apache.commons" % "commons-compress" % "1.26.2",
-  "commons-io" % "commons-io" % "2.15.1",
+  "commons-io" % "commons-io" % "2.22.0",
   "io.netty" % "netty-handler" % nettyVersion,
   "io.netty" % "netty-codec" % nettyVersion,
   "io.netty" % "netty-codec-http" % nettyVersion,
