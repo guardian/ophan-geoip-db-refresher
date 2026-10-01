@@ -7,7 +7,7 @@ description:= "Fetching the latest GeoIP database and putting it in S3 for Ophan
 version := "1.0"
 
 scalaVersion := "3.3.1"
-val jacksonVersion = "2.18.9"
+val jacksonVersion = "2.18.10"
 val nettyVersion = "4.2.17.Final"
 
 scalacOptions ++= Seq(
