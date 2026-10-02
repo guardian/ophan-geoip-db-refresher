@@ -7,7 +7,8 @@ description:= "Fetching the latest GeoIP database and putting it in S3 for Ophan
 version := "1.0"
 
 scalaVersion := "3.3.1"
-val jacksonVersion = "2.18.10"
+val jacksonVersion = "2.22.3"
+val jacksonAnnotationVersion = "2.22"
 val nettyVersion = "4.2.17.Final"
 
 scalacOptions ++= Seq(
@@ -21,7 +22,7 @@ libraryDependencies ++= Seq(
   "net.logstash.logback" % "logstash-logback-encoder" % "7.4",
   "org.slf4j" % "log4j-over-slf4j" % "2.0.12", //  log4j-over-slf4j provides `org.apache.log4j.MDC`, which is dynamically loaded by the Lambda runtime
   "ch.qos.logback" % "logback-classic" % "1.4.14",
-  "com.fasterxml.jackson.core" % "jackson-annotations" % jacksonVersion,
+  "com.fasterxml.jackson.core" % "jackson-annotations" % jacksonAnnotationVersion,
   "com.fasterxml.jackson.core" % "jackson-core" % jacksonVersion,
   "com.fasterxml.jackson.core" % "jackson-databind" % jacksonVersion,
 
