@@ -11,6 +11,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+      pull-requests: write
     steps:
       # Checkout the branch
       - uses: actions/checkout@v3
